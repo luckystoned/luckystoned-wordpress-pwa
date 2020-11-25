@@ -35,6 +35,8 @@ export const NavigationWrapper = styled.nav`
     a {
       padding: 0 0 0 10px;
       transition: all 0.2s ease;
+      text-decoration: none;
+      color: #000;
     }
 
     span {
