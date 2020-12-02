@@ -31,15 +31,9 @@ module.exports = {
       resolve: 'gatsby-source-wordpress',
       options: {
         excludedRoutes: [
-          '/*/*/users/**',
-          '/*/*/settings*',
-          '/*/*/themes*',
-        ],
-        includedRoutes: [
-          '/*/*/categories',
-          '/*/*/posts',
-          '/*/*/pages',
-          '/*/*/menus',
+          '/wp/v2/users/**',
+          '/wp/v2/settings*',
+          '/wp/v2/themes*',
         ],
         minimizeDeprecationNotice: true,
         baseUrl: `luckystoned.mystagingwebsite.com`,
