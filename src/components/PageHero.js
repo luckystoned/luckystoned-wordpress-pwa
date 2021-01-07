@@ -1,5 +1,24 @@
 import React from 'react'
+import Img from 'gatsby-image'
+import Styled from 'styled-components'
+import { PropTypes } from 'prop-types'
 
-const PAgeHero = () => <div>PAgeHero</div>
+const StyledImg = Styled(Img)`
+    height: 300px;
+`
 
-export default PAgeHero;
+const PageHero = ({ img }) => (
+    <div className="container-fluid">
+        <div className="row">
+            <div className="col" style={{ padding: 0 }}>
+                <StyledImg fluid={img} />
+            </div>
+        </div>
+    </div>
+)
+
+PageHero.propTypes = {
+    img: PropTypes.object,
+}
+
+export default PageHero;
