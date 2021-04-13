@@ -40,9 +40,11 @@ const PageTemaplate = ({ data }) => (
 
 export default PageTemaplate;
 
+
 export const PageQuery = graphql`
     query($id: String!, $parent: Int!, $wpId: Int!) {
         currentPage: wordpressPage(id: { eq: $id }) {
+            id
             title
             content
             wordpress_parent 

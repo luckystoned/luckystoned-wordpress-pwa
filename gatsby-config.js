@@ -15,6 +15,7 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-awesome-pagination`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
