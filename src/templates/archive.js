@@ -45,7 +45,7 @@ const archiveTemplate = ({
                     <h1 dangerouslySetInnerHTML={{ __html: catName }} />
                     {allWordpressPost.edges.map(post => (
                         <article key={post.node.id} className="entry-content">
-                            <Link to={`/trends/${post.node.slug}/`}>
+                            <Link to={`/trends${post.node.link}`}>
                                 <StyledH2 
                                     dangerouslySetInnerHTML={{ __html: post.node.title }}
                                 />
@@ -57,7 +57,7 @@ const archiveTemplate = ({
                             <p 
                                 dangerouslySetInnerHTML={{ __html: post.node.excerpt }}
                             />
-                            <StyledReadMore to={`/trends/${post.node.slug}/`}>
+                            <StyledReadMore to={`/trends${post.node.link}`}>
                                 Read More
                             </StyledReadMore>
                             <div className="dot_divider">
@@ -92,6 +92,7 @@ export const pageQuery = graphql`
                     title
                     excerpt
                     slug
+                    link
                     date(formatString: "DD, MM, YYYY")
                 }
             }

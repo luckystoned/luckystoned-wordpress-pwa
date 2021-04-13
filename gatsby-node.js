@@ -1,68 +1,62 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/node-apis/
- */
-
-// You can delete this file if you're not using it
-
-
 const path = require('path');
 const slash = require('slash');
 const { paginate } = require('gatsby-awesome-pagination');
 
 exports.createPages = async ({ graphql, actions }) => {
-    const { createPage } = actions;
+  const { createPage } = actions;
 
-    const pageTemplate = path.resolve('./src/templates/page.js');
-    const archiveTemplate = path.resolve('./src/templates/archive.js');
-    const postTemplate = path.resolve('./src/templates/post.js');
+  const pageTemplate = path.resolve('./src/templates/page.js');
+  const archiveTemplate = path.resolve('./src/templates/archive.js');
+  const postTemplate = path.resolve('./src/templates/post.js');
 
-    const result = await graphql(`
-        {
-            allWordpressPage {
-                edges {
-                    node {
-                        id
-                        status
-                        link
-                        wordpress_id
-                        wordpress_parent
-                    }
-                }
-            }
-            allWordpressPost {
-                edges {
-                    node {
-                        id
-                        link
-                        status
-                        categories {
-                            id
-                        }
-                    }
-                }
-            }
-            allWordpressCategory{
-                edges {
-                    node {
-                        id
-                        name
-                        slug
-                        count
-                    }
-                }
-            }
+  const result = await graphql(`
+    {
+      allWordpressPage {
+        edges {
+          node {
+            id
+            status
+            link
+            wordpress_id
+            wordpress_parent
+          }
         }
-    `)
-
-    //check for errors
-    if (result.errors) {
-        throw new Error(result.errors);
+      }
+      allWordpressPost {
+        edges {
+          node {
+            id
+            link
+            status
+            categories {
+              id
+            }
+          }
+        }
+      }
+      allWordpressCategory {
+        edges {
+          node {
+            id
+            name
+            slug
+            count
+          }
+        }
+      }
     }
+  `);
 
-    const { allWordpressPage, allWordpressPost, allWordpressCategory } = result.data;
+  // Check for errors
+  if (result.errors) {
+    throw new Error(result.errors);
+  }
 
+  const {
+    allWordpressPage,
+    allWordpressPost,
+    allWordpressCategory,
+  } = result.data;
 
   // Create archive pages for each category
   allWordpressCategory.edges.forEach(catEdge => {
@@ -90,18 +84,29 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   });
 
+  allWordpressPage.edges.forEach(edge => {
+    if (edge.node.status === 'publish') {
+      createPage({
+        path: edge.node.link,
+        component: slash(pageTemplate),
+        context: {
+          id: edge.node.id,
+          parent: edge.node.wordpress_parent,
+          wpId: edge.node.wordpress_id,
+        },
+      });
+    }
+  });
 
-    allWordpressPage.edges.forEach(edge => {
-        if (edge.node.status === 'publish') {
-            createPage({
-                path: edge.node.link,
-                component: slash(pageTemplate),
-                context: {
-                    id: edge.node.id,
-                    parent: edge.node.wordpress_parent,
-                    wpId: edge.node.wordpress_id,
-                },
-            });
-        }
-    });
-}
+  allWordpressPost.edges.forEach(edge => {
+    if (edge.node.status === 'publish') {
+      createPage({
+        path: `/trends${edge.node.link}`,
+        component: slash(postTemplate),
+        context: {
+          id: edge.node.id,
+        },
+      });
+    }
+  });
+};
