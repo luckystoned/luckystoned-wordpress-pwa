@@ -34,6 +34,11 @@ const archiveTemplate = ({
             }}
         />
         <div className="container">
+            <Pagination 
+                catSlug={catSlug}
+                page={humanPageNubmer}
+                totalPages={numberOfPages}
+            />
             <div className="row" style={{ marginBottom: '40px' }}>
                 <ArchiveSidebar catId={catId} categories={categories} />
                 <PageContent className="col-lg-9">
